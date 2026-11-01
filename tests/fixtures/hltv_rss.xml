@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
+<channel>
+  <title>HLTV.org - The home of competitive Counter-Strike</title>
+  <description>HLTV.org is the leading Counter-Strike site in the world, featuring news, demos, pictures, statistics, on-site coverage and much much more!</description>
+  <link>https://www.hltv.org/</link>
+  <language>en</language>
+  <ttl>60</ttl>
+  <image>
+    <url>https://www.hltv.org/img/static/openGraphHltvLogo.png</url>
+    <title>HLTV.org - The home of competitive Counter-Strike</title>
+    <link>https://www.hltv.org/</link>
+  </image>
+  <link xmlns="http://www.w3.org/2005/Atom" rel="self" type="application/rss+xml" href="https://www.hltv.org/rss/news"></link>
+  <item>
+    <title>1win take Moscow Cyber Games title in huge blow to HOTU's Major hopes </title>
+    <description>HOTU and fnatic will be nervously watching 100 Thieves in Argentina. </description>
+    <link>https://www.hltv.org/news/45877/1win-take-moscow-cyber-games-title-in-huge-blow-to-hotus-major-hopes</link>
+    <guid isPermaLink="false">hltvnews45877</guid>
+    <pubDate>Sun, 1 Nov 2026 15:08:00 GMT</pubDate>
+    <media:content url="https://img-cdn.hltv.org/gallerypicture/L-XpKDyTxR0RE8E6vCCt1i.jpg?auto=compress&amp;ixlib=java-2.1.0&amp;m=%2Fm.png&amp;mw=107&amp;mx=20&amp;my=474&amp;q=75&amp;w=800&amp;s=424171e3c09213ce5a7096713c2f7300"></media:content>
+  </item>
+  <item>
+    <title>zhokiNg: &quot;We had no choice but to play in that Retake event&quot; </title>
+    <description>Signing up for HyperX Retake may have cost TYLOO the Major, after they were forced to withdraw from the event to attend IEM Beijing. </description>
+    <link>https://www.hltv.org/news/45874/zhoking-we-had-no-choice-but-to-play-in-that-retake-event</link>
+    <guid isPermaLink="false">hltvnews45874</guid>
+    <pubDate>Sun, 1 Nov 2026 13:03:00 GMT</pubDate>
+    <media:content url="https://img-cdn.hltv.org/gallerypicture/r8u852MIB3N9NaXr0NGqZ1.jpg?auto=compress&amp;ixlib=java-2.1.0&amp;m=%2Fm.png&amp;mw=107&amp;mx=20&amp;my=474&amp;q=75&amp;w=800&amp;s=15b8586ae3f2e3dbf2c6cebcb9171750"></media:content>
+  </item>
+  <item>
+    <title>YEKINDAR: &quot;Finding strength to overcome all the doubts was something very important for me&quot; </title>
+    <description>YEKINDAR reflects on his career resurgence after claiming his first-ever HLTV MVP award. </description>
+    <link>https://www.hltv.org/news/45872/yekindar-finding-strength-to-overcome-all-the-doubts-was-something-very-important-for-me</link>
+    <guid isPermaLink="false">hltvnews45872</guid>
+    <pubDate>Sat, 31 Oct 2026 17:21:00 GMT</pubDate>
+    <media:content url="https://img-cdn.hltv.org/gallerypicture/6JbY1btjSkoDmScRR-ehse.jpg?auto=compress&amp;ixlib=java-2.1.0&amp;m=%2Fm.png&amp;mw=107&amp;mx=20&amp;my=474&amp;q=75&amp;w=800&amp;s=ce8e8a1593059a1dce3f542c75f10d77"></media:content>
+  </item>
+  <item>
+    <title>YEKINDAR wins career-first MVP at PGL Masters </title>
+    <description>YEKINDAR's &quot;life tournament&quot; has yielded him his first medal. </description>
+    <link>https://www.hltv.org/news/45871/yekindar-wins-career-first-mvp-at-pgl-masters</link>
+    <guid isPermaLink="false">hltvnews45871</guid>
+    <pubDate>Sat, 31 Oct 2026 16:07:00 GMT</pubDate>
+    <media:content url="https://img-cdn.hltv.org/gallerypicture/Yeq1rzAg49RjTF9v5S1YD0.jpg?auto=compress&amp;ixlib=java-2.1.0&amp;q=75&amp;w=800&amp;s=214f590b5600fb75a947349258f8f043"></media:content>
+  </item>
+  <item>
+    <title>FURIA secure second consecutive trophy with PGL Masters Bucharest victory </title>
+    <description>YEKINDAR led the way for his team with a 1.56-rated grand final. </description>
+    <link>https://www.hltv.org/news/45870/furia-secure-second-consecutive-trophy-with-pgl-masters-bucharest-victory</link>
+    <guid isPermaLink="false">hltvnews45870</guid>
+    <pubDate>Sat, 31 Oct 2026 15:53:00 GMT</pubDate>
+    <media:content url="https://img-cdn.hltv.org/gallerypicture/f-0oPK6nCv3mRZMGWn_zOZ.jpg?auto=compress&amp;ixlib=java-2.1.0&amp;m=%2Fm.png&amp;mw=107&amp;mx=20&amp;my=474&amp;q=75&amp;w=800&amp;s=072abf0e7898fe4449c1423709e9f363"></media:content>
+  </item>
+  <item>
+    <title>Short news: Week 42 </title>
+    <description>Catch up with more Counter-Strike news in bite-sized pieces. </description>
+    <link>https://www.hltv.org/news/45811/short-news-week-42</link>
+    <guid isPermaLink="false">hltvnews45811</guid>
+    <pubDate>Sat, 31 Oct 2026 13:34:00 GMT</pubDate>
+    <media:content url=""></media:content>
+  </item>
+  <item>
+    <title>MOUZ claim third place in Romania over Vitality </title>
+    <description>Vitality's second stint with jL ended on a whimper as MOUZ came away with a convincing 2-0. </description>
+    <link>https://www.hltv.org/news/45869/mouz-claim-third-place-in-romania-over-vitality</link>
+    <guid isPermaLink="false">hltvnews45869</guid>
+    <pubDate>Sat, 31 Oct 2026 10:03:00 GMT</pubDate>
+    <media:content url="https://img-cdn.hltv.org/gallerypicture/imqiL1yezlBo64ix6pkv8-.jpg?auto=compress&amp;ixlib=java-2.1.0&amp;m=%2Fm.png&amp;mw=107&amp;mx=20&amp;my=473&amp;q=75&amp;w=800&amp;s=966f8db7fe5a09edcafbf6a54075695a"></media:content>
+  </item>
+  <item>
+    <title>PGL Masters Bucharest grand final as it happened </title>
+    <description>Keep up with the happenings from the trophy clash in Romania. </description>
+    <link>https://www.hltv.org/news/45868/pgl-masters-bucharest-grand-final-as-it-happened</link>
+    <guid isPermaLink="false">hltvnews45868</guid>
+    <pubDate>Sat, 31 Oct 2026 09:45:00 GMT</pubDate>
+    <media:content url="https://img-cdn.hltv.org/gallerypicture/UdJpmBTOe_96hapWczkArl.jpg?auto=compress&amp;ixlib=java-2.1.0&amp;m=%2Fm.png&amp;mw=107&amp;mx=20&amp;my=473&amp;q=75&amp;w=800&amp;s=ce6cb58914ee993374bf3cd88a774567"></media:content>
+  </item>
+  <item>
+    <title>TYLOO likely to miss out on Singapore following HyperX Retake withdrawal </title>
+    <description>The Chinese squad is down to a 17% qualification chance after a scheduling conflict with IEM Beijing. </description>
+    <link>https://www.hltv.org/news/45867/tyloo-likely-to-miss-out-on-singapore-following-hyperx-retake-withdrawal</link>
+    <guid isPermaLink="false">hltvnews45867</guid>
+    <pubDate>Sat, 31 Oct 2026 09:25:00 GMT</pubDate>
+    <media:content url="https://img-cdn.hltv.org/gallerypicture/sM1ZzYZEnJzkFBSjRfU6d-.jpg?auto=compress&amp;ixlib=java-2.1.0&amp;m=%2Fm.png&amp;mw=107&amp;mx=20&amp;my=473&amp;q=75&amp;w=800&amp;s=7106d690d2d668aae8809e2fb75a80ee"></media:content>
+  </item>
+  <item>
+    <title>imd: &quot;There are no plans for Snax to be IGLing for GamerLegion next season&quot; </title>
+    <description>The Polish coach revealed that shalfey is on trial with the team. </description>
+    <link>https://www.hltv.org/news/45866/imd-there-are-no-plans-for-snax-to-be-igling-for-gamerlegion-next-season</link>
+    <guid isPermaLink="false">hltvnews45866</guid>
+    <pubDate>Fri, 30 Oct 2026 21:40:00 GMT</pubDate>
+    <media:content url="https://img-cdn.hltv.org/gallerypicture/w8P5ULcFoYn6mF0PmsnwKF.jpg?auto=compress&amp;ixlib=java-2.1.0&amp;m=%2Fm.png&amp;mw=107&amp;mx=20&amp;my=473&amp;q=75&amp;w=800&amp;s=43fe98265e407ef26db27c9b1ee75732"></media:content>
+  </item>
+</channel>
+</rss>

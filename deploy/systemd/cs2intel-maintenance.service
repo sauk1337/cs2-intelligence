@@ -1,0 +1,10 @@
+[Unit]
+Description=CS2 Intelligence - maintenance and backup
+
+[Service]
+Type=oneshot
+User=cs2intel
+WorkingDirectory=/opt/cs2intel/app
+EnvironmentFile=/opt/cs2intel/app/.env
+Environment=PYTHON=/opt/cs2intel/venv/bin/python
+ExecStart=/opt/cs2intel/app/scripts/maintenance.sh

@@ -1,0 +1,24 @@
+# Settings for the cs2intel.tcl script - copy to cs2intel.conf.tcl and adjust.
+# (In Docker this file is generated automatically from the environment variables.)
+
+# URL of the Python backend (in Docker Compose: http://backend:8787)
+set cs2intel(api_url)       "http://127.0.0.1:8787"
+# Must match BOT_API_TOKEN in the backend's .env
+set cs2intel(token)         "CHANGE-THIS-TOKEN"
+# Logical name of this network; must exist in config/settings.yaml -> networks
+set cs2intel(network)       "minet"
+# Eggdrop flags allowed to use !admin (global|channel). "n|n" = global or channel owner
+set cs2intel(admin_flags)   "n|n"
+# 1 = only reply in channels set with  .chanset #channel +cs2intel
+set cs2intel(require_flag)  1
+# Allow commands in private messages
+set cs2intel(allow_private) 1
+# How often (seconds) automatic posts are collected from the backend
+set cs2intel(poll_interval) 3
+# Max messages collected per poll, and max size of Eggdrop's help queue before pausing
+set cs2intel(poll_limit)    6
+set cs2intel(max_queue)     15
+# Max lines per command reply (the backend paginates with !more)
+set cs2intel(max_reply)     8
+# Minimum seconds between commands from the same user (local anti-flood)
+set cs2intel(user_cooldown) 2

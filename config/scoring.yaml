@@ -1,0 +1,33 @@
+# =====================================================================
+#  Opportunity scoring engine (0-100)
+#  Weights are relative: they are normalised so the maximum is 100.
+#  They can be changed live with !admin reload.
+# =====================================================================
+weights:
+  price_drop: 25        # 24h/7d/30d drop, distance to the 30d median, closeness to the 90d low
+  volume: 15            # enough volume and its trend
+  liquidity: 15         # how easy it is to sell (daily sales, log scale)
+  trend: 15             # one-off dip in a healthy trend, or a prolonged downtrend?
+  cross_platform: 15    # is it cheaper than on other platforms?
+  news_context: 10      # stable context vs news/updates that add uncertainty
+
+manipulation_max_penalty: 20   # maximum penalty for manipulation / outlier-price signals
+
+thresholds:
+  drop_24h: 5.0         # minimum % drop for the signal to count
+  drop_7d: 10.0
+  drop_30d: 15.0
+  below_avg30: 8.0      # % below the 30-day median
+  near_min90: 5.0       # % above the 90-day low
+  volume_spike: 1.6     # ratio of 24h sales / 7d daily average
+
+labels:                 # label cut-offs (HIGH RISK depends on the risk level)
+  excellent: 80
+  interesting: 65
+  watch: 50
+
+store_min_score: 50     # minimum score to store the opportunity in the history
+
+arbitrage:
+  min_profit_pct: 5.0   # minimum net margin after fees
+  undercut_pct: 1.0     # assumed undercut to sell quickly on the destination platform

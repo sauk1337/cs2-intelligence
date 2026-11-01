@@ -1,0 +1,61 @@
+# CS2 Intelligence — full deployment:  docker compose up -d --build
+# Optional:  docker compose --profile redis --profile translate up -d
+services:
+  backend:
+    build:
+      context: .
+      args:
+        WITH_REDIS: "${WITH_REDIS:-false}"
+        WITH_POSTGRES: "${WITH_POSTGRES:-false}"
+    image: cs2intel-backend
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      API_HOST: 0.0.0.0
+      DATA_DIR: /app/data
+      LOG_DIR: /app/logs
+      BACKUP_DIR: /app/backups
+    volumes:
+      - ./config:/app/config:ro
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./backups:/app/backups
+    # The API is NOT published outside: Eggdrop reaches it over the internal network.
+    # To expose SVG charts behind a reverse proxy, publish on 127.0.0.1 only:
+    # ports: ["127.0.0.1:8787:8787"]
+    networks: [cs2net]
+
+  eggdrop:
+    build: ./eggdrop
+    image: cs2intel-eggdrop
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      BACKEND_URL: http://backend:8787
+    volumes:
+      - ./eggdrop/data:/opt/eggdrop/data
+      - ./logs/eggdrop:/opt/eggdrop/logs
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks: [cs2net]
+
+  redis:
+    image: redis:7-alpine
+    profiles: [redis]
+    restart: unless-stopped
+    command: ["redis-server", "--save", "", "--appendonly", "no", "--maxmemory", "128mb",
+              "--maxmemory-policy", "allkeys-lru"]
+    networks: [cs2net]
+
+  libretranslate:
+    image: libretranslate/libretranslate:latest
+    profiles: [translate]
+    restart: unless-stopped
+    environment:
+      LT_LOAD_ONLY: en,es,pt,ru
+    networks: [cs2net]
+
+networks:
+  cs2net:
+    driver: bridge

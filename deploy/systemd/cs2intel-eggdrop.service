@@ -1,0 +1,18 @@
+[Unit]
+Description=CS2 Intelligence - Eggdrop
+After=network-online.target cs2intel-backend.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=cs2intel
+WorkingDirectory=/opt/cs2intel/eggdrop
+Environment=PREFIX=/opt/cs2intel
+ExecStart=/opt/cs2intel/app/scripts/start-eggdrop.sh
+Restart=always
+RestartSec=30
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

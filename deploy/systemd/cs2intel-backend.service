@@ -1,0 +1,23 @@
+[Unit]
+Description=CS2 Intelligence - Python backend
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=cs2intel
+WorkingDirectory=/opt/cs2intel/app
+EnvironmentFile=/opt/cs2intel/app/.env
+ExecStart=/opt/cs2intel/venv/bin/python -m backend.main serve
+Restart=always
+RestartSec=5
+# hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/cs2intel/app/data /opt/cs2intel/app/logs /opt/cs2intel/app/backups
+MemoryMax=1G
+
+[Install]
+WantedBy=multi-user.target

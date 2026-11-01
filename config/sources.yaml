@@ -1,0 +1,183 @@
+# =====================================================================
+#  Data sources — every integration can be enabled/disabled individually.
+#
+#  ACCESS AUTHORISATION (documentation required)
+#  ---------------------------------------------
+#  The deployment server must be authorised to send requests from its public IP to the
+#  integrated sources, WITHIN the scope granted by each provider.
+#  - All requests leave through `egress.outbound_ip` (if the server has several IPs) or through
+#    the authorised proxy `egress.proxy`.
+#  - IP authorisation does NOT replace credentials, terms of use or rate limits:
+#    each source keeps its own limits (http.min_interval) and credentials.
+#  - Captchas, anti-bot challenges and authentication are never bypassed: on a 401/403
+#    or a challenge the source is paused for `block_cooldown` seconds and another source is used.
+#  Fill in `authorization` for each source with a reference to the authorisation you obtained.
+# =====================================================================
+
+egress:
+  outbound_ip: ${OUTBOUND_IP:-}            # authorised public outbound IP (empty = system default)
+  proxy: ${OUTBOUND_PROXY:-}               # optional authorised proxy, e.g. http://user:pass@host:3128
+  user_agent: "${HTTP_USER_AGENT:-CS2IntelligenceBot/1.0 (+contact admin@example.org)}"
+  timeout: 20
+  max_connections: 20
+  http2: false
+
+http_defaults:
+  timeout: 20
+  min_interval: 1.0          # seconds between requests to the same source
+  max_concurrency: 2
+  retries: 2
+  cache_ttl: 0
+  respect_robots: false      # enabled per source for HTML scraping
+  block_cooldown: 900
+
+# ----------------------------------------------------------------- news
+news:
+  steam_cs2:
+    enabled: true
+    type: steam_news
+    official: true
+    appid: 730
+    feeds: steam_community_announcements   # official Valve announcements only (patches)
+    count: 10
+    weight: 30
+    interval_s: 300
+    authorization: "Public Steam API"
+  hltv_rss:
+    enabled: true
+    url: https://www.hltv.org/rss/news
+    weight: 25
+    interval_s: 300
+    authorization: "Public HLTV RSS feed"
+  dust2_rss:
+    enabled: true
+    url: https://www.dust2.us/rss
+    weight: 18
+    interval_s: 600
+  dexerto:
+    enabled: true
+    url: https://www.dexerto.com/feed/
+    cs_filter: true            # general feed: only CS news is stored
+    weight: 8
+    interval_s: 600
+  esports_insider:
+    enabled: true
+    url: https://esportsinsider.com/feed
+    cs_filter: true
+    weight: 10
+    interval_s: 900
+  pley:
+    enabled: true
+    url: https://pley.gg/feed/
+    cs_filter: true
+    weight: 8
+    interval_s: 900
+  reddit_globaloffensive:
+    enabled: false             # Reddit restricts automated access; enable only if you have permission
+    url: https://www.reddit.com/r/GlobalOffensive/.rss
+    cs_filter: false
+    weight: 5
+    interval_s: 900
+
+# --------------------------------------------------------------- market
+market:
+  skinport:
+    enabled: true
+    currency: EUR
+    authorization: "Public Skinport API (no key). Limit 8 requests / 5 min"
+    http: {min_interval: 40, max_concurrency: 1, timeout: 60, retries: 1}
+    fees: {seller: 0.08, buyer: 0.0, cashout: true, trade_hold_days: 7,
+           notes: "Indicative seller fee; check the current one at skinport.com/fees"}
+  steam:
+    enabled: true
+    currency: EUR
+    authorization: "Public Steam Community Market endpoints"
+    http: {min_interval: 4.0, max_concurrency: 1, retries: 1, block_cooldown: 600}
+    max_items_per_run: 15
+    bulk_pages: 0              # 0 = disabled (search/render has a very strict rate limit)
+    tracked_items:             # always queried on Steam (in addition to watchlists)
+      - "AK-47 | Redline (Field-Tested)"
+      - "AWP | Asiimov (Field-Tested)"
+      - "Kilowatt Case"
+      - "Revolution Case"
+    fees: {seller: 0.1304, buyer: 0.0, cashout: false, trade_hold_days: 7,
+           notes: "5% Steam + 10% CS2 on the base price; Steam wallet balance cannot be cashed out"}
+  csfloat:
+    enabled: ${CSFLOAT_ENABLED:-false}
+    api_key: ${CSFLOAT_API_KEY:-}
+    authorization: "Personal CSFloat API key"
+    http: {min_interval: 2.0, max_concurrency: 1}
+    listings_limit: 10
+    max_items_per_run: 20
+    tracked_items: []
+    fees: {seller: 0.02, buyer: 0.0, cashout: true, trade_hold_days: 7, notes: "Check the current fee"}
+  buff163:
+    enabled: ${BUFF_ENABLED:-false}
+    cookie: ${BUFF_COOKIE:-}   # session cookie of YOUR account; authorised access only
+    authorization: "Authorised access with own account"
+    http: {min_interval: 5.0, max_concurrency: 1, block_cooldown: 3600}
+    pages: 5
+    fees: {seller: 0.025, buyer: 0.0, cashout: true, trade_hold_days: 7}
+  pricempire:
+    enabled: ${PRICEMPIRE_ENABLED:-false}
+    api_key: ${PRICEMPIRE_API_KEY:-}
+    url: https://api.pricempire.com/v4/paid/items/prices
+    params: {app_id: 730, currency: USD, sources: buff163}
+    provider: buff163
+    price_divisor: 100
+    authorization: "Paid Pricempire plan"
+    fees: {seller: 0.0, buyer: 0.0, cashout: true, trade_hold_days: 7}
+
+# -------------------------------------------------------------- esports
+esports:
+  liquipedia:
+    enabled: true
+    authorization: "Liquipedia MediaWiki API (terms: 1 req/2 s; parse 1 req/30 s)"
+    http: {min_interval: 2.2, max_concurrency: 1, timeout: 30}
+    interval_s: {live: 60, idle: 120}
+  liquipedia_parse:             # HTTP profile for action=parse (Liquipedia's own limit)
+    enabled: true
+    http: {min_interval: 31, max_concurrency: 1, timeout: 30}
+  hltv:
+    enabled: ${HLTV_ENABLED:-false}
+    authorization: "Access authorised by HLTV for the server IP"
+    auth_header: ${HLTV_AUTH_HEADER:-}     # "Header-Name: value" if HLTV gave you one
+    cookie: ${HLTV_COOKIE:-}
+    user_agent: ${HLTV_USER_AGENT:-}
+    http: {min_interval: 2.0, max_concurrency: 1, respect_robots: true, block_cooldown: 900}
+    interval_s: {live: 15, idle: 120}
+    detail_limit: 6
+  pandascore:
+    enabled: ${PANDASCORE_ENABLED:-false}
+    token: ${PANDASCORE_TOKEN:-}
+    game: csgo                 # PandaScore also uses the csgo slug for CS2
+    authorization: "PandaScore API token"
+    http: {min_interval: 1.0, max_concurrency: 2}
+    interval_s: {live: 10, idle: 120}
+  faceit:
+    enabled: ${FACEIT_ENABLED:-false}
+    api_key: ${FACEIT_API_KEY:-}
+    championships: []          # FACEIT championship IDs to follow (ESEA, FPL…)
+    hubs: []
+    authorization: "FACEIT Data API key (developers.faceit.com)"
+    http: {min_interval: 1.0, max_concurrency: 2}
+    interval_s: {live: 15, idle: 180}
+  vrs:
+    enabled: true
+    region: global
+    authorization: "Public repository ValveSoftware/counter-strike_regional_standings"
+    http: {min_interval: 2.0, cache_ttl: 0}
+
+# ------------------------------------------------------------ reference
+reference:
+  ecb:
+    enabled: true
+    authorization: "Public ECB reference rates"
+  metadata:
+    enabled: true
+    url: https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/skins.json
+    authorization: "Public ByMykel/CSGO-API dataset (collections and rarities)"
+    http: {timeout: 60}
+  libretranslate:
+    enabled: ${LIBRETRANSLATE_ENABLED:-false}
+    http: {min_interval: 0.5}

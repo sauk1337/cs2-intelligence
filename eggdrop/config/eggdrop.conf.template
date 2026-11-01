@@ -1,0 +1,123 @@
+#! /opt/eggdrop/eggdrop
+# =============================================================================
+#  eggdrop.conf for CS2 Intelligence (Eggdrop 1.9+/1.10)
+#  Template: the ${...} variables are filled in from the environment (envsubst) in Docker,
+#  or by hand for a manual install (copy this file to eggdrop.conf and edit it).
+# =============================================================================
+
+set username "${EGG_USERNAME}"
+set admin "${EGG_ADMIN}"
+set network "${IRC_NETWORK_NAME}"
+set timezone "UTC"
+set offset "0"
+set env(TZ) "${BOT_TIMEZONE}"
+
+# --- logs (Eggdrop rotates the files daily) ---
+set max-logs 20
+set max-logsize 1024
+set raw-log 0
+logfile mcobxs * "logs/eggdrop.log"
+set log-time 1
+set timestamp-format {[%H:%M:%S]}
+set keep-all-logs 0
+set switch-logfiles-at 300
+set quiet-save 1
+set console "mkcobxs"
+
+# --- files ---
+set userfile "data/cs2intel.user"
+set chanfile "data/cs2intel.chan"
+set pidfile "data/pid.cs2intel"
+set sort-users 0
+set help-path "help/"
+set text-path "text/"
+set motd "text/motd"
+set temp-path "/tmp"
+
+# --- identity ---
+set owner "${EGG_OWNER}"
+set botnet-nick "${IRC_NICK}"
+set nick "${IRC_NICK}"
+set altnick "${IRC_ALTNICK}"
+set realname "${IRC_REALNAME}"
+
+# --- modules ---
+loadmodule pbkdf2
+loadmodule channels
+loadmodule server
+loadmodule ctcp
+loadmodule irc
+loadmodule console
+
+# --- IRC server (automatic reconnection is built into Eggdrop) ---
+set net-type "${IRC_NET_TYPE}"
+server add ${IRC_SERVER} ${IRC_PORT} ${IRC_SERVER_PASS}
+set default-port 6667
+set ssl-verify-servers 0
+set server-cycle-wait 30
+set server-timeout 60
+set servlimit 0
+set check-stoned 1
+set serverror-quit 1
+set keep-nick 1
+set quiet-reject 1
+set lowercase-ctcp 0
+set answer-ctcp 3
+set flood-msg 5:60
+set flood-ctcp 3:60
+set never-give-up 1
+set strict-servernames 0
+set max-queue-msg 300
+set trigger-on-ignore 0
+set exclusive-binds 0
+set double-mode 1
+set double-server 1
+set double-help 1
+set optimize-kicks 1
+set stack-limit 4
+# seconds between queued messages (IRC server anti-flood)
+set msg-rate 2
+
+# SASL (optional). Leave IRC_SASL_USER empty if not used.
+if {"${IRC_SASL_USER}" ne ""} {
+    set sasl 1
+    set sasl-mechanism 0
+    set sasl-username {${IRC_SASL_USER}}
+    set sasl-password {${IRC_SASL_PASS}}
+    set sasl-continue 1
+}
+
+# --- channels / irc ---
+set chanfile "data/cs2intel.chan"
+set force-expire 0
+set share-greet 0
+set use-info 0
+set allow-desync 0
+set default-flags ""
+set global-chanset {-autoop -autovoice -bitch -protectops -enforcebans +dynamicbans +userbans}
+set bounce-bans 0
+set learn-users 0
+set wait-split 600
+set wait-info 180
+set mode-buf-length 200
+set no-chanrec-info 0
+set opchars "@"
+set ctcp-mode 0
+
+# --- partyline (disabled by default; set EGG_LISTEN_PORT for telnet) ---
+if {"${EGG_LISTEN_PORT}" ne ""} { listen ${EGG_LISTEN_PORT} all }
+set protect-telnet 1
+set require-p 1
+set open-telnets 0
+set connect-timeout 15
+set dcc-flood-thr 3
+
+# --- CS2 Intelligence ---
+source scripts/cs2intel.conf.tcl
+source scripts/cs2intel.tcl
+
+foreach chan [split "${IRC_CHANNELS}" " ,"] {
+    if {$chan eq ""} { continue }
+    if {![validchan $chan]} { channel add $chan }
+    channel set $chan +cs2intel
+}

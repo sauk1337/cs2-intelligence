@@ -1,0 +1,19 @@
+# CS2 Intelligence backend — Python 3.12+
+fastapi>=0.115
+uvicorn[standard]>=0.30
+python-multipart>=0.0.9
+httpx[http2,brotli]>=0.27
+sqlalchemy[asyncio]>=2.0.30
+aiosqlite>=0.20
+feedparser>=6.0
+beautifulsoup4>=4.12
+lxml>=5.0
+pyyaml>=6.0
+python-dotenv>=1.0
+rapidfuzz>=3.6
+tzdata>=2024.1
+anthropic>=0.40          # only used when NEWS_SUMMARIZER=anthropic
+
+# Optional (uncomment depending on your deployment)
+# asyncpg>=0.29          # PostgreSQL: DATABASE_URL=postgresql+asyncpg://user:pass@host/db
+# redis>=5.0             # shared cache: REDIS_URL=redis://redis:6379/0

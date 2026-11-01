@@ -1,0 +1,20 @@
+# secrets and local configuration
+.env
+config/local.yaml
+docker-compose.override.yml
+eggdrop/scripts/cs2intel.conf.tcl
+
+# runtime data (folders are kept with .gitkeep)
+data/*
+logs/*
+backups/*
+eggdrop/data/
+!data/.gitkeep
+!logs/.gitkeep
+!backups/.gitkeep
+
+# python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/

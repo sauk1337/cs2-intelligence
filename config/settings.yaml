@@ -1,0 +1,146 @@
+# =====================================================================
+#  CS2 Intelligence Bot — general settings
+#  ${VAR:-default} values are read from the environment / .env. Never put secrets here.
+#  Most changes apply live with !admin reload (new sources/intervals need a backend restart).
+# =====================================================================
+
+bot:
+  name: ${BOT_NAME:-CS2Intel}
+  language: en                         # language of the bot output and news summaries
+  timezone: ${BOT_TIMEZONE:-Europe/Madrid}
+
+api:
+  host: ${API_HOST:-127.0.0.1}         # Docker: 0.0.0.0 (the compose network isolates the port)
+  port: ${API_PORT:-8787}
+  token: ${BOT_API_TOKEN}              # shared with eggdrop/scripts/cs2intel.conf.tcl
+  allowed_ips: ${API_ALLOWED_IPS:-127.0.0.1/32,::1/128,172.16.0.0/12,10.0.0.0/8}
+  public_url: ${PUBLIC_URL:-}          # e.g. https://cs2.mydomain.org (SVG charts behind a proxy)
+  public_charts: ${PUBLIC_CHARTS:-false}
+
+paths:
+  data: ${DATA_DIR:-data}
+  logs: ${LOG_DIR:-logs}
+  backups: ${BACKUP_DIR:-backups}
+
+logging:
+  level: ${LOG_LEVEL:-INFO}
+  max_bytes: 10000000
+  backups: 7
+
+irc:
+  colors: true              # mIRC colours and bold (false = plain text)
+  max_line_bytes: 400       # safety margin under IRC's 512-byte line limit
+  page_lines: 5             # longer replies are paginated with !more
+  user_rate_limit: 6        # commands per user…
+  user_rate_window_s: 30    # …within this window (anti-flood)
+
+# ---------------------------------------------------------------------
+# Networks and channels. The network name must match `cs2intel(network)`
+# in each Eggdrop's Tcl config (one Eggdrop per network).
+# Alert categories: news valve market opportunity arbitrage trend volume live results upcoming
+# (users and admins can also toggle them in IRC with !alerts)
+# ---------------------------------------------------------------------
+networks:
+  ${IRC_NETWORK:-minet}:
+    channels:
+      "${IRC_MAIN_CHANNEL:-#cs2}":
+        categories: [news, valve, market, opportunity, arbitrage, trend, volume, live, results, upcoming]
+        min_news_relevance: 55       # 0-100, higher = fewer news posts
+        min_opportunity_score: 70    # only opportunities scoring at least this
+        min_live_importance: 40      # filters out minor matches
+        max_per_hour: 14             # automatic posts per hour
+        quiet_hours: "03:00-08:00"   # only urgent alerts (priority ≥ 9) during these hours
+        silent: false                # true = no automatic posts in this channel
+
+publishing:
+  defaults:                    # used by channels that don't override a value
+    categories: [news, valve, live, results]
+    min_news_relevance: 60
+    min_opportunity_score: 75
+    min_live_importance: 55
+    max_per_hour: 10
+    max_lines: 6
+    quiet_hours: ""
+    silent: false
+  outbox_max_age_s: 900       # anything not delivered within 15 min is dropped (never post stale data)
+
+intervals:                     # seconds
+  news_check_s: 60             # each source also has its own interval_s in sources.yaml
+  skinport_items_s: 600
+  skinport_history_s: 3600
+  steam_queue_s: 120
+  steam_bulk_s: 3600
+  csfloat_s: 900
+  buff_s: 1800
+  pricempire_s: 3600
+  analysis_s: 900
+  watchlist_s: 300
+  trend_digest_s: 21600
+  results_s: 60
+  tournaments_s: 21600
+  ranking_s: 43200
+  fx_s: 21600
+  metadata_s: 604800
+  maintenance_s: 86400
+  backup_s: 86400
+
+news:
+  interval_s: 300
+  max_age_h: 72            # news up to 72h old is stored…
+  publish_max_age_h: 6     # …but only the last 6h is announced (no backlog dump on startup)
+  important_threshold: 70
+  summarizer:
+    provider: ${NEWS_SUMMARIZER:-none}     # none | anthropic | libretranslate
+    anthropic_api_key: ${ANTHROPIC_API_KEY:-}
+    model: ${ANTHROPIC_MODEL:-claude-opus-5-5}
+    effort: low
+    max_tokens: 4000
+    batch_size: 8
+    fallbacks: true
+    libretranslate_url: ${LIBRETRANSLATE_URL:-}
+    libretranslate_api_key: ${LIBRETRANSLATE_API_KEY:-}
+
+market:
+  currency: ${MARKET_CURRENCY:-EUR}        # base currency; converted with official ECB rates
+  reference_source: skinport               # source with full coverage for history and trends
+  min_price_track: 0.30                    # don't store history for cheaper items
+  min_price_analyze: 1.00
+  min_sales_30d: 10
+  snapshot_every_s: 3600
+  max_price_age_s: 21600
+  liquidity_target_daily_sales: 40
+  thin_market_sales_30d: 10
+  max_candidates: 150
+  max_arbitrage_checks: 300
+  disclaimer: "Not financial advice."
+
+esports:
+  live_priority: [hltv, pandascore, faceit, liquipedia]
+  source_confidence: {hltv: 0.95, pandascore: 0.9, faceit: 0.9, liquipedia: 0.75}
+  stale_after_s: {hltv: 90, pandascore: 60, faceit: 90, liquipedia: 240}
+  match_window_h: 8
+  profile_cache_h: 24
+
+alerts:
+  publish_labels: [EXCELLENT, INTERESTING]   # opportunity labels that are auto-posted
+  max_opportunities_per_run: 3
+  max_arbitrage_per_run: 2
+  abnormal_drop_pct: 20
+  volume_spike_ratio: 3
+  watch_default_pct: 5
+  max_watch_per_user: 25
+  upcoming_lead_min: 15
+  upcoming_min_importance: 60
+  cooldowns_s: {opportunity: 43200, arbitrage: 43200, market: 86400, volume: 86400, trend: 21600}
+
+maintenance:
+  raw_snapshot_days: 7          # afterwards compacted to 1 point per day
+  backup_keep: 14
+  retention:
+    prices_days: 400
+    news_days: 365
+    opportunities_days: 120
+    outbox_days: 3
+    alerts_days: 60
+    commands_days: 90
+    logs_days: 30
